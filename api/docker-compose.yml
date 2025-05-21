@@ -1,7 +1,7 @@
 services:
   web:
     build:
-      context: .
+      context: ..
       dockerfile: docker/python/Dockerfile
     working_dir: /var/www
     volumes:
