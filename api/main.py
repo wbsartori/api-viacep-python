@@ -1,21 +1,14 @@
-# from services.request import Request
-#
-# http = Request()
-#
-# http.search('89815000')
-
+import requests
 from fastapi import FastAPI
-
 from services.request import Request
 
 app = FastAPI()
 
-@app.get("/")
-def test():
-    return {"data": "teste"}
+@app.get("/{cep}")
+def search_cep(cep: str):
+    response = requests.get(f'https://viacep.com.br/ws/{cep}/json')
 
-@app.get("/search_cep={cep}")
-def search_cep(cep):
+    if response.status_code != 200:
+        return {"error": f"Erro ao consultar o CEP: {response.status_code}"}
 
-    requestApi = Request()
-    return {"data": cep}
+    return response.json()
